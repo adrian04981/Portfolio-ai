@@ -6,7 +6,7 @@
 
 import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
 
-const API_KEY = process.env.API_KEY || '';
+const API_KEY = '21f1100781b21a57ea22d95f12a00fc795365f51';
 
 let chatSession: Chat | null = null;
 
