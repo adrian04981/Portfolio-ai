@@ -6,13 +6,15 @@
 
 import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
 
-const API_KEY = process.env.API_KEY || '';
+// ⚠️ IMPORTANTE: PEGA TU API KEY AQUI ABAJO DENTRO DE LAS COMILLAS
+const API_KEY = "PEGAR_TU_API_KEY_AQUI"; 
 
 let chatSession: Chat | null = null;
 
 export const initializeChat = (): Chat => {
   if (chatSession) return chatSession;
 
+  // En producción real, esto debería venir de process.env, pero para este caso está hardcoded.
   const ai = new GoogleGenAI({ apiKey: API_KEY });
   
   chatSession = ai.chats.create({
@@ -32,7 +34,7 @@ export const initializeChat = (): Chat => {
       
       Experiencia:
       - Analista de datos, Logística y TI (Nov 2022 - Jul 2024): Gestión de datos, logística de EPPs, drones, licencias TI.
-      - Asistente SSOMAC @ GRUPO FLK (Jul 2023 - Oct 2023): Documentación ISO 9001/45001.
+      - Asistente SSOMAC @ GRUPO FLK (Jul 2023 - Oct 2023): Documentación y gestión certificaciones ISO 9001/45001. (No desarrollo de software en este rol).
       
       Proyecto Destacado:
       - Grupoflk.lat: Sistema Web Móvil para acreditación de maquinaria (Vue, Vite, Supabase).
@@ -53,8 +55,8 @@ export const initializeChat = (): Chat => {
 };
 
 export const sendMessageToGemini = async (message: string): Promise<string> => {
-  if (!API_KEY) {
-    return "Entorno local detectado. Falta API Key.";
+  if (!API_KEY || API_KEY === "PEGAR_TU_API_KEY_AQUI") {
+    return "⚠️ Configuración incompleta: Por favor edita el archivo 'services/geminiService.ts' y coloca tu API Key de Google.";
   }
 
   try {
@@ -63,6 +65,6 @@ export const sendMessageToGemini = async (message: string): Promise<string> => {
     return response.text || "Estoy procesando la información... intenta de nuevo.";
   } catch (error) {
     console.error("Gemini Error:", error);
-    return "Error de conexión con la red neuronal. Intenta más tarde.";
+    return "Error de conexión con la IA. Verifique su API Key o intente más tarde.";
   }
 };
